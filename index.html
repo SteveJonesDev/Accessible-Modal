@@ -1,299 +1,49 @@
-<!-- HTML Structure for the Modal with proper ARIA attributes -->
-<button class="modal-open button">Open Accessible Modal</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Accessible Modal</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<!-- HTML Structure for the Modal with proper ARIA attributes -->
+	<button class="modal-open button">Open Accessible Modal</button>
 
-<!-- Modal overlay -->
-<div class="modal-overlay">
-	<!-- Modal container with proper ARIA attributes -->
-	<div class="modal" id="accessible-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
-		<!-- Modal header -->
-		<div class="modal-header">
-			<h2 id="modal-title">Accessible Modal Title</h2>
-			<button class="modal-close" aria-label="Close modal">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		
-		<!-- Modal content -->
-		<div class="modal-content">
-			<p id="modal-description">This is an accessible modal dialog. It follows WCAG 2.2 guidelines.</p>
+	<!-- Modal overlay -->
+	<div class="modal-overlay">
+		<!-- Modal container with proper ARIA attributes -->
+		<div class="modal" id="accessible-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+			<!-- Modal header -->
+			<div class="modal-header">
+				<h2 id="modal-title">Accessible Modal Title</h2>
+				<button class="modal-close" aria-label="Close modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 			
-			<!-- Example form in modal -->
-			<form>
-				<div class="form-group">
-					<label for="modal-name">Your Name</label>
-					<input type="text" id="modal-name" name="name">
-				</div>
+			<!-- Modal content -->
+			<div class="modal-content">
+				<p id="modal-description">This is an accessible modal dialog. It follows WCAG 2.2 guidelines.</p>
 				
-				<div class="form-group">
-					<label for="modal-email">Your Email</label>
-					<input type="email" id="modal-email" name="email">
-				</div>
-				
-				<button type="submit" class="button">Submit</button>
-				<button type="button" class="button modal-cancel">Cancel</button>
-			</form>
+				<!-- Example form in modal -->
+				<form>
+					<div class="form-group">
+						<label for="modal-name">Your Name</label>
+						<input type="text" id="modal-name" name="name">
+					</div>
+					
+					<div class="form-group">
+						<label for="modal-email">Your Email</label>
+						<input type="email" id="modal-email" name="email">
+					</div>
+					
+					<button type="submit" class="button">Submit</button>
+					<button type="button" class="button modal-cancel">Cancel</button>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
-
-<style>
-	/* Modal base styles */
-	.modal-overlay {
-		display: none;
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(0, 0, 0, 0.5);
-		z-index: 1000;
-		overflow-y: auto;
-	}
-	
-	.modal-overlay.is-active {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-	
-	.modal {
-		background-color: #fff;
-		border-radius: 4px;
-		max-width: 500px;
-		width: 100%;
-		margin: 2rem;
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-	}
-	
-	.modal-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1rem;
-		border-bottom: 1px solid #eaeaea;
-	}
-	
-	.modal-content {
-		padding: 1rem;
-	}
-	
-	/* Form styling */
-	.form-group {
-		margin-bottom: 1rem;
-	}
-	
-	.form-group label {
-		display: block;
-		margin-bottom: 0.5rem;
-		font-weight: bold;
-	}
-	
-	.form-group input {
-		width: 100%;
-		padding: 0.5rem;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-	}
-	
-	/* Button styling */
-	.button {
-		background-color: #0073aa;
-		color: white;
-		border: none;
-		border-radius: 4px;
-		padding: 0.5rem 1rem;
-		cursor: pointer;
-	}
-	
-	.button:hover, .button:focus {
-		background-color: #005177;
-		outline: none;
-	}
-	
-	.button:focus {
-		box-shadow: 0 0 0 2px white, 0 0 0 4px #0073aa;
-	}
-	
-	/* Close button styling */
-	.modal-close {
-		background: none;
-		border: none;
-		font-size: 1.5rem;
-		cursor: pointer;
-		padding: 0.25rem 0.5rem;
-	}
-</style>
-
-<script>
-	(function() {
-		// Modal configuration object
-		const accessibleModal = {
-			settings: {
-				openButtons: document.querySelectorAll('.modal-open'),
-				closeButtons: document.querySelectorAll('.modal-close, .modal-cancel'),
-				modalOverlay: document.querySelector('.modal-overlay'),
-				activeClass: 'is-active',
-				modalId: 'accessible-modal',
-				focusableElements: 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-				initialFocusElement: '#modal-title',
-				form: document.querySelector('.modal form'),
-			},
-
-			/**
-			 * Initialize the modal functionality
-			 */
-			init: () => {
-				if (!accessibleModal.settings.modalOverlay) return;
-				accessibleModal.bindEvents();
-			},
-
-			/**
-			 * Bind all event listeners
-			 */
-			bindEvents: () => {
-				const { openButtons, closeButtons, modalOverlay, form } = accessibleModal.settings;
-
-				if (openButtons.length > 0) {
-					openButtons.forEach(button => {
-						button.addEventListener('click', (e) => {
-							e.preventDefault();
-							accessibleModal.openModal();
-						});
-					});
-				}
-
-				if (closeButtons.length > 0) {
-					closeButtons.forEach(button => {
-						button.addEventListener('click', (e) => {
-							e.preventDefault();
-							accessibleModal.closeModal();
-						});
-					});
-				}
-
-				if (modalOverlay) {
-					modalOverlay.addEventListener('click', (e) => {
-						if (e.target === modalOverlay) {
-							accessibleModal.closeModal();
-						}
-					});
-				}
-
-				document.addEventListener('keydown', (e) => {
-					if (e.key === 'Escape' && accessibleModal.isModalOpen()) {
-						accessibleModal.closeModal();
-					}
-
-					if (e.key === 'Tab' && accessibleModal.isModalOpen()) {
-						accessibleModal.trapFocus(e);
-					}
-				});
-
-				if (form) {
-					form.addEventListener('submit', (e) => {
-						e.preventDefault();
-
-						/* eslint-disable no-alert */
-						alert("This is just a demonstration. If it were a real application, it would provide a message telling whether the entered name and email address is valid.");
-						/* eslint-enable no-alert */
-					});
-				}
-			},
-
-			/**
-			 * Open the modal
-			 */
-			openModal: () => {
-				accessibleModal.settings.previouslyFocused = document.activeElement;
-
-				accessibleModal.settings.modalOverlay.classList.add(accessibleModal.settings.activeClass);
-				document.body.classList.add('modal-open');
-				document.body.style.overflow = 'hidden';
-
-				accessibleModal.setInitialFocus();
-			},
-
-			/**
-			 * Close the modal
-			 */
-			closeModal: () => {
-				accessibleModal.settings.modalOverlay.classList.remove(accessibleModal.settings.activeClass);
-				document.body.classList.remove('modal-open');
-				document.body.style.overflow = '';
-
-				document.querySelectorAll('.temp-focusable').forEach(el => {
-					el.removeAttribute('tabindex');
-					el.classList.remove('temp-focusable');
-				});
-
-				if (accessibleModal.settings.previouslyFocused) {
-					accessibleModal.settings.previouslyFocused.focus();
-				}
-			},
-
-			/**
-			 * Check if modal is currently open
-			 * @returns {boolean} True if modal is open
-			 */
-			isModalOpen: () => {
-				return accessibleModal.settings.modalOverlay.classList.contains(accessibleModal.settings.activeClass);
-			},
-
-			/**
-			 * Get all focusable elements inside the modal
-			 * @returns {NodeList} List of focusable elements
-			 */
-			getFocusableElements: () => {
-				const modal = document.getElementById(accessibleModal.settings.modalId);
-				return modal ? modal.querySelectorAll(accessibleModal.settings.focusableElements) : [];
-			},
-
-			/**
-			 * Set initial focus when modal opens
-			 */
-			setInitialFocus: () => {
-				const focusElement = document.querySelector(accessibleModal.settings.initialFocusElement);
-
-				if (focusElement) {
-					if (!focusElement.getAttribute('tabindex')) {
-						focusElement.setAttribute('tabindex', '-1');
-						focusElement.classList.add('temp-focusable');
-					}
-
-					setTimeout(() => {
-						focusElement.focus();
-					}, 50);
-					return;
-				}
-
-				const focusableElements = accessibleModal.getFocusableElements();
-				if (focusableElements.length > 0) {
-					setTimeout(() => {
-						focusableElements[0].focus();
-					}, 50);
-				}
-			},
-
-			/**
-			 * Trap focus inside the modal
-			 */
-			trapFocus: (e) => {
-				const focusableElements = accessibleModal.getFocusableElements();
-				if (focusableElements.length === 0) return;
-
-				const firstElement = focusableElements[0];
-				const lastElement = focusableElements[focusableElements.length - 1];
-
-				if (e.shiftKey && document.activeElement === firstElement) {
-					e.preventDefault();
-					lastElement.focus();
-				} else if (!e.shiftKey && document.activeElement === lastElement) {
-					e.preventDefault();
-					firstElement.focus();
-				}
-			},
-		};
-
-		document.addEventListener('DOMContentLoaded', accessibleModal.init);
-	})();
-</script>
+</body>
+</html>
